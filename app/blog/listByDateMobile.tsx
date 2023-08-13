@@ -70,6 +70,7 @@ export default function ListByDateMobile({ posts, closeAllNav }: Props) {
                                 href={`/blog/${post.id}`}
                                 className="text-xl flex"
                               >
+                                <span className="mdi mdi-chevron-right"></span>
                                 {post.title}
                               </Link>
                             </li>
