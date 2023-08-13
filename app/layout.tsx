@@ -4,7 +4,15 @@ import Navbar from "./components/navbar";
 
 export const metadata: Metadata = {
   title: "Richard's blog",
-  description: "Made with love by richardscull",
+  description: "Funny blog about funny things",
+  creator: "richardscull",
+  openGraph: {
+    images: [
+      {
+        url: "https://github.com/richardscull/RichardsBlog/blob/master/public/images/HuTaoLogo.png",
+      },
+    ],
+  },
 };
 
 export default function RootLayout({

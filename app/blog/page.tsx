@@ -1,5 +1,5 @@
 import { getSortedPostsData } from "@/lib/posts";
-import ListItems from "./listItems";
+import Post from "./[postId]/page";
 
 export default function Blog() {
   const posts = getSortedPostsData();
@@ -11,14 +11,13 @@ export default function Blog() {
       </section>
     );
 
+  const postId = posts[0].id;
+
   return (
-    <section className="w-full mx-auto place-content-center flex my-5">
-      <ul className="text-2xl">
-        {posts.map((post) => (
-          <ListItems key={post.id} post={post} />
-        ))}
-      </ul>
-      {/* TODO: add pagination */}
-    </section>
+    <main className="mx-auto mt-4 px-4 flex place-content-center">
+      <div className="flex">
+        <Post params={{ postId }} />
+      </div>
+    </main>
   );
 }
