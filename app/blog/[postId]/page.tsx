@@ -32,19 +32,18 @@ export default async function Post({ params }: { params: { postId: string } }) {
   const { title, date, tags, contentHtml } = await getPostData(postId);
 
   const pubDate = getFormattedDate(date);
-  
 
   return (
-    <main className="flex justify-center items-center mx-auto m-auto mt-4 px-4 ">
-      <div className="flex">
-        <div className="md:gap-0 mr-5 hidden sm:flex">
+    <main className="lg:flex justify-center items-center mx-auto m-auto mt-4">
+      <div className="lg:flex">
+        <div className="md:gap-0 mr-5 hidden lg:flex">
           <ListDataItems
             posts={posts}
             setOpenYear={new Date(date).getFullYear()}
             setOpenMonth={new Date(date).getMonth()}
           />
         </div>
-        <div className="prose prose-lg prose-invert ">
+        <div className="prose prose-lg prose-invert mx-auto max-w-2xl px-4">
           <div className="border-b-2 pb-12">
             <h1 className="text-4xl my-5">{title}</h1>
             <p className="-my-3">{pubDate}</p>

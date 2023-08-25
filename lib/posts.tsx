@@ -9,6 +9,7 @@ import remarkParse from "remark-parse";
 import rehypeDocument from "rehype-document";
 import rehypeFormat from "rehype-format";
 import rehypeStringify from "rehype-stringify";
+const shiki = require("rehype-shiki");
 
 const postsDirectory = path.join(process.cwd(), "posts");
 
@@ -44,9 +45,10 @@ export async function getPostData(id: string) {
     .use(remarkGfm, { singleTilde: false })
     .use(remarkRehype, { allowDangerousHtml: true })
     .use(rehypeRaw)
+    .use(shiki, { theme: "./public/dark-plus.json" })
     .use(rehypeDocument, { title: grayMatterResult.data.title })
     .use(rehypeFormat)
-    .use(rehypeStringify)
+    .use(rehypeStringify, { allowDangerousHtml: true })
     .process(grayMatterResult.content);
 
   const contentHtml = processedContent.toString();

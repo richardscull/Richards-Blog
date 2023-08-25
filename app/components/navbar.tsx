@@ -73,13 +73,13 @@ export default function Navbar() {
 
         <button
           onClick={handleNav}
-          className="block sm:hidden z-10 justify-end right-5 text-3xl absolute top-10"
+          className="block lg:hidden z-10 justify-end right-5 text-3xl absolute top-10"
         >
           <AiOutlineMenu />
         </button>
         {isMenuOpen && (
           <div
-            className="fixed inset-0 bg-black opacity-50 z-20 sm:hidden"
+            className="fixed inset-0 bg-black opacity-50 z-20 lg:hidden"
             onClick={closeAllNav}
           ></div>
         )}
@@ -87,7 +87,7 @@ export default function Navbar() {
         {/* Mobile nav menu */}
 
         <div
-          className={`transform transition-transform duration-300 sm:hidden ${
+          className={`transform transition-transform duration-300 lg:hidden ${
             isMenuOpen ? "translate-x-none" : "translate-x-full"
           } fixed top-0 right-0 w-64 bg-neutral-800 h-screen z-30 `}
         >
@@ -103,7 +103,7 @@ export default function Navbar() {
             <p className="font-bold tracking-tight">Navigation</p>
             <button
               onClick={handleNav}
-              className="block sm:hidden fixed justify-end right-2 text-3xl mx-1"
+              className="block lg:hidden fixed justify-end right-2 text-3xl mx-1"
             >
               <AiOutlineMenuUnfold />
             </button>
@@ -142,7 +142,7 @@ export default function Navbar() {
         {/* Mobile blog menu */}
 
         <div
-          className={`transform transition-transform duration-300 sm:hidden ${
+          className={`transform transition-transform duration-300 lg:hidden ${
             isBlogOpen ? "translate-x-none" : "translate-x-full"
           } fixed top-0 right-0 w-64 bg-neutral-800 h-screen z-30`}
         >
@@ -158,7 +158,7 @@ export default function Navbar() {
             <p className="font-bold tracking-tight">Posts</p>
             <button
               onClick={handleBlog}
-              className="block sm:hidden fixed justify-end right-2 text-3xl mx-1"
+              className="block lg:hidden fixed justify-end right-2 text-3xl mx-1"
             >
               <span className="mdi mdi-arrow-u-left-bottom"></span>
             </button>
@@ -169,7 +169,7 @@ export default function Navbar() {
 
       {/* Full screen Navigation labels */}
 
-      <div className="items-center mx-auto place-content-center hidden sm:flex">
+      <div className="items-center mx-auto place-content-center hidden lg:flex">
         <p className="font-bold items-center text-lg text-center">
           <a href="/" className="mx-3">
             Main page
