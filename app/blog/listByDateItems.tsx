@@ -64,7 +64,12 @@ export default function ListByDateItems({
                       key={month}
                       className="-my-2 mx-fit whitespace-normal text-left"
                     >
-                      <details className="group" open={setOpenYear === year && setOpenMonth+1 === month}>
+                      <details
+                        className="group"
+                        open={
+                          setOpenYear === year && setOpenMonth + 1 === month
+                        }
+                      >
                         <summary
                           className="flex items-center justify-between p-2 font-medium marker:content-none hover:cursor-pointer"
                           onClick={() =>
@@ -115,7 +120,7 @@ export function getYearsMonths(year: number, posts: Blogpost[]) {
     .filter((post) => new Date(post.date).getFullYear() === year)
     .map((post) => new Date(post.date).getMonth() + 1)
     .filter((month, index, self) => self.indexOf(month) === index)
-    .sort();
+    .sort((a, b) => b - a); // sort by descending
 
   return PostsMonths;
 }
