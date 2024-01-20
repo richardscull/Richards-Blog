@@ -3,7 +3,7 @@
 <h1>
     <img alt="work" src="./public/images/readMePreview.png" width="100%">
 </h1>
-<h4 align="center">🔥 A blog application builded on Next.js, who offering support for markdown-based posts. </h4>
+<h4 align="center">🔥 A blog application built on Next.js, who offers support for markdown-based posts. </h4>
 
 # 🔧 Requirements
 If you want to try app by yourself, you will need:
