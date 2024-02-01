@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import Navbar from "./components/navbar";
+import EmojisParser from "./components/7tvEmojis";
 
 export const metadata: Metadata = {
   title: "Richard's blog",
@@ -23,6 +24,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="bg-neutral-900">
+        <EmojisParser />
         <Navbar />
         {children}
       </body>
