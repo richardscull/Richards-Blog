@@ -25,10 +25,41 @@ const replaceText = (setId: string) => {
     .then((res) => res.json())
     .then((data) => data.emotes)
     .then((emojis: Emoji[]) => {
-      elements.forEach((element) => {
-        if (element.tagName === "CODE") return; // Don't replace emojis in code blocks
-        if (element.tagName === "PRE") return; // Don't replace emojis in code blocks
-        if (element.parentElement?.tagName === "HEAD") return;
+      // add element children to array
+      const elementsArr = Array.from(elements);
+
+      elementsArr.forEach((element) => {
+        if (element.childElementCount > 0) {
+          element.childNodes.forEach((child: Node, index, parent) => {
+            if (child.nodeType !== 3) return;
+
+            const words = child.textContent!.split(" ");
+            for (let i = 0; i < words.length; i++) {
+              const word = words[i];
+              const emoji = emojis.find((emoji) => emoji.name === word);
+              if (!emoji) continue;
+              words[i] = getEmojiElement(emoji);
+            }
+
+            const spanElement = document.createElement("span");
+            spanElement.innerHTML = words.join(" ");
+
+            // Replace the original text node with the new span element
+            element.replaceChild(spanElement, child);
+          });
+
+          return;
+        }
+
+        // Edge cases
+        if (
+          element.tagName === "CODE" ||
+          element.tagName === "TITLE" ||
+          element.tagName === "META" ||
+          element.tagName === "LINK" ||
+          element.tagName === "STYLE"
+        )
+          return;
 
         const words = element.innerHTML.split(" ");
         for (let i = 0; i < words.length; i++) {
@@ -36,18 +67,8 @@ const replaceText = (setId: string) => {
           const emoji = emojis.find((emoji) => emoji.name === word);
           if (!emoji) continue;
 
-          const emojiElement = `<span class="mr-1 ml-1">
-          <Image
-          style="display: inline-block; vertical-align: middle; margin: 0 auto; padding: 0;"
-          src="https:${emoji.data.host.url}/${emoji.data.host.files[1].name}"
-          alt="emoji"
-          width="${emoji.data.host.files[1].width}"
-          height="${emoji.data.host.files[1].height}"
-          ></Image>
-          </span>`;
-
-          console.log(`Replaced ${word} with ${emojiElement}`);
-          words[i] = emojiElement;
+          console.log(`Replaced ${word} with parent ${element.tagName}`);
+          words[i] = getEmojiElement(emoji);
         }
 
         element.innerHTML = words.join(" ");
@@ -64,4 +85,16 @@ export default function EmojisParser() {
   }, []);
 
   return null;
+}
+
+function getEmojiElement(emoji: Emoji) {
+  return `<span class="mr-1 ml-1">
+  <Image
+  style="display: inline-block; vertical-align: middle; margin: 0 auto; padding: 0;"
+  src="https:${emoji.data.host.url}/${emoji.data.host.files[1].name}"
+  alt="emoji"
+  width="${emoji.data.host.files[1].width}"
+  height="${emoji.data.host.files[1].height}"
+  ></Image>
+  </span>`;
 }
