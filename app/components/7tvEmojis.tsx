@@ -26,8 +26,9 @@ const replaceText = (setId: string) => {
     .then((data) => data.emotes)
     .then((emojis: Emoji[]) => {
       elements.forEach((element) => {
-        if (element.childElementCount > 0) return; // Don't replace emojis in elements with children
         if (element.tagName === "CODE") return; // Don't replace emojis in code blocks
+        if (element.tagName === "PRE") return; // Don't replace emojis in code blocks
+        if (element.parentElement?.tagName === "HEAD") return;
 
         const words = element.innerHTML.split(" ");
         for (let i = 0; i < words.length; i++) {
