@@ -37,6 +37,9 @@ export default function ListByDateItems({
     .map((post) => new Date(post.date).getFullYear())
     .filter((year, index, self) => self.indexOf(year) === index);
 
+  // https://upload.wikimedia.org/wikipedia/commons/6/62/Thomas_C._Lea_III_-_That_Two-Thousand_Yard_Stare_-_Original.jpg
+  // I will try to refactor this shit someday
+
   return (
     <>
       <nav>
