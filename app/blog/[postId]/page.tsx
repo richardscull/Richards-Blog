@@ -2,6 +2,7 @@ import getFormattedDate from "@/lib/getFormattedDate";
 import { getPostData, getSortedPostsData } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ListDataItems from "../listByDateItems";
+import ScrollUpButton from "@/app/components/scrollUpButton";
 
 export async function generateMetadata({
   params,
@@ -55,6 +56,7 @@ export default async function Post({ params }: { params: { postId: string } }) {
             </p>
           </article>
         </div>
+        <ScrollUpButton />
       </div>
     </main>
   );
