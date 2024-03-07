@@ -36,29 +36,26 @@ export default function ListByDateMobile({ posts, closeAllNav }: Props) {
           <li key={year}>
             <details className="group">
               <summary
-                className="flex items-center marker:content-none hover:cursor-pointer text-xl"
+                className="flex items-center marker:content-none hover:cursor-pointer text-xl place-content-between"
                 onClick={() => handleYearClick(year)}
               >
                 <div className="p-2">{year}</div>
 
-                <span className="mdi mdi-chevron-right justify-end ml-36 transition group-open:rotate-90"></span>
+                <span className="mdi mdi-chevron-right justify-end  transition group-open:rotate-90"></span>
               </summary>
             </details>
 
             {openYears[year] && (
               <ul className="block">
                 {getYearsMonths(year, posts).map((month) => (
-                  <li
-                    key={month}
-                    className="-my-2 mx-fit whitespace-normal text-left"
-                  >
+                  <li key={month} className="-my-2 whitespace-normal text-left">
                     <details className="group">
                       <summary
-                        className="flex items-center marker:content-none hover:cursor-pointer text-xl"
+                        className="flex items-center marker:content-none hover:cursor-pointer text-xl place-content-between"
                         onClick={() => handleMonthClick(year, month.toString())}
                       >
                         <div className="p-2 mx-2">{monthName(month)}</div>
-                        <span className="mdi mdi-chevron-right justify-center ml-28 transition group-open:rotate-90"></span>
+                        <span className="mdi mdi-chevron-right justify-center transition group-open:rotate-90"></span>
                       </summary>
                     </details>
                     {openMonths[`${year}-${month}`] && (
