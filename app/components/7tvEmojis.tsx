@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
 
 interface Emoji {
@@ -19,70 +20,73 @@ interface Emoji {
 }
 
 // This function is used to replace all the text with 7tv emojis in the page
-const replaceText = (setId: string) => {
-  const elements = document.querySelectorAll("*:not(script):not(style)");
-  fetch("https://7tv.io/v3/emote-sets/" + setId)
-    .then((res) => res.json())
-    .then((data) => data.emotes)
-    .then((emojis: Emoji[]) => {
-      // add element children to array
-      const elementsArr = Array.from(elements);
+async function replaceText(setId: string) {
+  const elements = Array.from(
+    document.querySelectorAll("*:not(script):not(style)")
+  );
 
-      elementsArr.forEach((element) => {
-        if (element.childElementCount > 0) {
-          element.childNodes.forEach((child: Node, index, parent) => {
-            if (child.nodeType !== 3) return;
+  const emojis = (await fetch("./api/getEmojis?setId=" + setId, {
+    cache: "force-cache",
+  }).then((res) => res.json())) as Emoji[];
 
-            const words = child.textContent!.split(" ");
-            for (let i = 0; i < words.length; i++) {
-              const word = words[i];
-              const emoji = emojis.find((emoji) => emoji.name === word);
-              if (!emoji) continue;
-              words[i] = getEmojiElement(emoji);
-            }
+  elements.forEach((element) => {
+    if (element.childElementCount > 0) {
+      element.childNodes.forEach((child: Node) => {
+        if (child.nodeType !== 3) return;
 
-            const spanElement = document.createElement("span");
-            spanElement.innerHTML = words.join(" ");
-
-            // Replace the original text node with the new span element
-            element.replaceChild(spanElement, child);
-          });
-
-          return;
-        }
-
-        // Edge cases
-        if (
-          element.tagName === "CODE" ||
-          element.tagName === "TITLE" ||
-          element.tagName === "META" ||
-          element.tagName === "LINK" ||
-          element.tagName === "STYLE"
-        )
-          return;
-
-        const words = element.innerHTML.split(" ");
+        const words = child.textContent!.split(" ");
         for (let i = 0; i < words.length; i++) {
           const word = words[i];
           const emoji = emojis.find((emoji) => emoji.name === word);
           if (!emoji) continue;
-
           console.log(`Replaced ${word} with parent ${element.tagName}`);
           words[i] = getEmojiElement(emoji);
         }
 
-        element.innerHTML = words.join(" ");
+        const spanElement = document.createElement("span");
+        spanElement.innerHTML = words.join(" ");
+
+        // Replace the original text node with the new span element
+
+        element.replaceChild(spanElement, child);
       });
-    });
-};
+
+      return;
+    }
+
+    switch (element.tagName) {
+      case "CODE":
+      case "TITLE":
+      case "META":
+      case "LINK":
+      case "STYLE":
+        return;
+    }
+
+    if (element.id === "ignore-7tv") return;
+
+    const words = element.innerHTML.split(" ");
+    for (let i = 0; i < words.length; i++) {
+      const word = words[i];
+      const emoji = emojis.find((emoji) => emoji.name === word);
+      if (!emoji) continue;
+
+      console.log(`Replaced ${word} with parent ${element.tagName}`);
+      words[i] = getEmojiElement(emoji);
+    }
+
+    element.innerHTML = words.join(" ");
+  });
+}
 
 export default function EmojisParser() {
   // The set id is the id of the set of emojis you want to use
   const SET_ID = "655784ad9e081c7db7cc20d0";
+  const pathname = usePathname();
 
   useEffect(() => {
     replaceText(SET_ID);
-  }, []);
+  }, [pathname]);
 
   return null;
 }

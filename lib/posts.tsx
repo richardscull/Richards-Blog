@@ -59,6 +59,7 @@ export async function getPostData(id: string) {
     title: grayMatterResult.data.title,
     tags: grayMatterResult.data.tags,
     date: grayMatterResult.data.date,
+    raw: fileContents,
     contentHtml,
-  } as Blogpost & { contentHtml: string };
+  } as Blogpost & { contentHtml: string; raw: string };
 }

@@ -3,6 +3,9 @@ import { getPostData, getSortedPostsData } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ListDataItems from "../listByDateItems";
 import ScrollUpButton from "@/app/components/scrollUpButton";
+import Copyright from "@/app/components/copyright";
+
+export const revalidate = 86400;
 
 export async function generateMetadata({
   params,
@@ -12,15 +15,17 @@ export async function generateMetadata({
   const posts = getSortedPostsData();
   const { postId } = params;
 
-  const post = posts.find((post) => post.id === postId);
-
-  if (!post)
+  if (!posts.find((post) => post.id === postId))
     return {
       title: "Not found",
     };
 
+  const postData = await getPostData(postId);
+
   return {
-    title: post.title,
+    title: postData.title,
+    description: postData.raw.split("---")[2],
+    image: "./images/HuTaoNavigation.png",
   };
 }
 
