@@ -3,7 +3,6 @@ import { getPostData, getSortedPostsData } from "@/lib/posts";
 import { notFound } from "next/navigation";
 import ListDataItems from "../listByDateItems";
 import ScrollUpButton from "@/app/components/scrollUpButton";
-import Copyright from "@/app/components/copyright";
 
 export const revalidate = 86400;
 

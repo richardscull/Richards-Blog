@@ -25,7 +25,8 @@ async function replaceText(setId: string) {
     document.querySelectorAll("*:not(script):not(style)")
   );
 
-  const emojis = (await fetch("./api/getEmojis?setId=" + setId, {
+  const url = window.location.origin;
+  const emojis = (await fetch(`${url}/api/getEmojis?setId=` + setId, {
     cache: "force-cache",
   }).then((res) => res.json())) as Emoji[];
 
